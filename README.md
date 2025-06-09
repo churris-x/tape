@@ -10,6 +10,11 @@ Install with [Homebrew](https://brew.sh):
 brew install vitorgalvao/tiny-scripts/tape
 ```
 
+To enable bash completions add the following to the end of your config file (usually `~/.bashrc`)
+```shell
+eval "$(tape completion)"
+```
+
 Alternatively, download the executable at the root of this repository and call it directly.
 
 ## Usage
