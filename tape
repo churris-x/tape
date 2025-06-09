@@ -130,6 +130,23 @@ end
 
 usage if ARGV.empty? || ARGV.include?('help') || ARGV.include?('--help') || ARGV.include?('-h')
 
+# Add shell completion to all commands
+def completion
+  puts <<~COMPLETION
+    # Add list of flags to autocomplete
+    _tape_completion () {
+        local current=${COMP_WORDS[COMP_CWORD]}
+        local options="backup restore list tokens launchd update version completion help"
+        COMPREPLY=( $(compgen -W "$options" -- "$current") )
+    }
+    complete -F _tape_completion tape
+  COMPLETION
+
+  exit
+end
+
+completion if ARGV.include?('completion')
+
 # Load config
 Config_dir = Pathname.new(ENV['HOME']).join('.config', 'tape')
 Config_file = Config_dir.join('config.json')
