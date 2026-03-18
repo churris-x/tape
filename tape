@@ -99,7 +99,7 @@ def update_definitions(force: false)
 
   remote_hash = JSON.parse(Open3.capture2(
     '/usr/bin/curl', '--silent', 'https://api.github.com/repos/vitorgalvao/tape/commits/main'
-  ).first)['sha']
+  ).first.force_encoding('UTF-8'))['sha']
 
   local_hash_file.write(remote_hash)
   return if remote_hash == local_hash
