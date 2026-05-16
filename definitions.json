@@ -160,6 +160,13 @@
     ],
     "paths": null
   },
+  "feedback-assistant": {
+    "name": "Feedback Assistant",
+    "ids": [
+      "com.apple.appleseed.FeedbackAssistant"
+    ],
+    "paths": null
+  },
   "finder": {
     "name": "Finder",
     "ids": [
@@ -188,6 +195,15 @@
       "~/.config/GeoToad"
     ]
   },
+  "ghostty": {
+    "name": "Ghostty",
+    "ids": [
+      "com.mitchellh.ghostty"
+    ],
+    "paths": [
+      "~/Library/Application Support/com.mitchellh.ghostty"
+    ]
+  },
   "git": {
     "name": "Git",
     "ids": null,
@@ -213,7 +229,8 @@
     "name": "Helix",
     "ids": null,
     "paths": [
-      "~/.config/helix"
+      "~/.config/helix/config.toml",
+      "~/.config/helix/languages.toml"
     ]
   },
   "ia-writer": {
@@ -485,7 +502,7 @@
     "name": "Tape",
     "ids": null,
     "paths": [
-      "~/.config/tape/config.yaml"
+      "~/.config/tape/config.json"
     ]
   },
   "textual": {
