@@ -87,7 +87,7 @@ def restore_app(app_token, definitions = All_apps)
 end
 
 def update_definitions(force: false)
-  local_hash_file = Config_dir.join('latest_hash.txt')
+  local_hash_file = Cache_dir.join('latest_hash.txt')
 
   # Skip if updated in the last hour, unless forced
   return if !force && local_hash_file.exist? && (Time.now - local_hash_file.mtime) < 3600
@@ -99,7 +99,7 @@ def update_definitions(force: false)
 
   remote_hash = JSON.parse(Open3.capture2(
     '/usr/bin/curl', '--silent', 'https://api.github.com/repos/vitorgalvao/tape/commits/main'
-  ).first)['sha']
+  ).first.force_encoding('UTF-8'))['sha']
 
   local_hash_file.write(remote_hash)
   return if remote_hash == local_hash
@@ -150,6 +150,10 @@ completion if ARGV.include?('completion')
 # Load config
 Config_dir = Pathname.new(ENV['HOME']).join('.config', 'tape')
 Config_file = Config_dir.join('config.json')
+Cache_dir = Pathname.new(ENV['HOME']).join('.cache', 'tape')
+
+Config_dir.mkpath
+Cache_dir.mkpath
 
 Default_config = {
   backup_to: Config_dir.join('Backups').to_path, # Directory to save backups (leading "~" is expanded)
@@ -162,7 +166,6 @@ unless Config_file.exist?
   Default_config_json = JSON.pretty_generate(Default_config)
   warn "No config file found. One with default settings was saved to #{Config_file}:\n#{Default_config_json}\n"
 
-  Config_dir.mkpath
   Config_file.write(Default_config_json)
 end
 
@@ -172,7 +175,7 @@ abort '"keep" value in configuration needs to be a whole number bigger than 0' u
 
 # Collect software to backup or restore
 Backups_dir = Pathname.new(Config['backup_to']).expand_path
-Definitions_file = Config_dir.join('definitions.json')
+Definitions_file = Cache_dir.join('definitions.json')
 
 # Launchd for automatic backups
 Launchd_file = Pathname.new(ENV['HOME']).join('Library', 'LaunchAgents', 'com.vitorgalvao.tape.plist')
